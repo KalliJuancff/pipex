@@ -2,6 +2,8 @@
 #include <stdio.h>		// printf
 #include <stdlib.h>		// exit
 
+int variable = 7;
+
 int main(void)
 {
 	pid_t pid;
@@ -15,17 +17,23 @@ int main(void)
 		exit(-1);
 	}
 
-	printf("        [Proceso PID = %d] Ejecutando línea tras 'fork'.  NOTA: Esta línea se ejecuta 2 veces.\n", getpid());
+	printf("        [Proceso PID = %d] Ejecutando línea tras 'fork'. Valor de variable: %d (el inicial).  NOTA: Esta línea se ejecuta 2 veces.\n", getpid(), variable);
 
-	if (pid == 0)
-		printf(" [Proceso hijo (PID = %d)] Ejecutando línea en 'IF (PID == 0)'.\n", getpid());	
+	if (pid > 0)
+	{
+		variable = 77;
+		printf("[Proceso padre (PID = %d)] Ejecutando línea en 'IF (PID > 0)'.  Valor de variable: %d\n", getpid(), variable);
+	}
 	else
-		printf("[Proceso padre (PID = %d)] Ejecutando línea en 'ELSE (PID > 0)'.\n", getpid());	
+	{
+		variable = 777;
+		printf(" [Proceso hijo (PID = %d)] Ejecutando línea en 'ELSE (PID == 0)'.   Valor de variable: %d\n", getpid(), variable);
+	}
 
 	while (1)
 	{
 		sleep(1);
-		printf("        [Proceso PID = %d] Ejecutando bucle while...\n", getpid());
+		printf("        [Proceso PID = %d] Ejecutando bucle while...  Valor de variable: %d\n", getpid(), variable);
 	}
 
 	return (0);
