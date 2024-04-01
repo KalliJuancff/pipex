@@ -1,3 +1,4 @@
+// "execv(...): llamada al sistema, familia "exec". Linux, C"
 #include <stdio.h>		// printf
 #include <unistd.h>		// execv, getpid
 
@@ -13,7 +14,7 @@ int main(int argc, char *argv[])
 	execv(nombre_proceso, argv_exec);
 
 	// NOTA:
-	// La ejecución sólo llegará a esta línea cuando la llamada a 'execv' falle
+	// La ejecución sólo llegará a esta línea cuando la llamada a 'execv' falle. Si no falla, la siguiente línea nunca se ejecutará
 	perror("La ejecución falló");
 
 	return(-1);

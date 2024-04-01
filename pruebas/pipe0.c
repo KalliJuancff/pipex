@@ -1,3 +1,4 @@
+// "fork() y pipe(fd) , Hijo y padre se comunican con un pipe, C, linux"
 #include <stdio.h>		// perror, printf
 #include <stdlib.h>		// exit
 #include <unistd.h>		// close, fork, pid_t, read, write
