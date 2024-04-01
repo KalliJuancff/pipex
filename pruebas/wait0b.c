@@ -1,4 +1,19 @@
 // "fork(). Parte II. wait, fork, exit status, múltiples hijos"
+
+/*
+	NOTA:
+	El siguiente experimento, fallido, tiene una salida distinta cuando la salida se realiza por pantalla (stdout) a
+	cuando la salida se redirecciona a un fichero.
+	En el primer caso, los mensajes "Deteniendo proceso hijo (...)" se entremezclan, mientras que en el segundo caso
+	son mostrados todos secuencialmente al inicio de la salida.
+	Por lo visto el problema radica en que los procesos hijo y el proceso padre comparten la salida estándar (stdout), y
+	cuando varios procesos escriben en stdout simultáneamente, puede ocurrir esta mezcla de mensajes.
+	Una posible solución sería redirigir la salida estándar de cada proceso hijo a un fichero y después de que el
+	proceso padre espere a que cada hijo termine, lea y muestre la salida del fichero correspondiente al hijo.
+	Lógicamente esto lo probará mi descendencia, no un servidor, que en lugar de estar programando 'pipex', se está
+	entreteniendo en probar los distintos comandos asociados (lo que otros dirían "enredando, estás enredando, JC!")
+*/
+
 #include <stdio.h>		// perror, printf
 #include <stdlib.h>		// exit, srand, rand, wait, WEXITSTATUS
 #include <unistd.h>		// fork, getpid, pid_t, sleep
