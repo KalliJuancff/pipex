@@ -1,7 +1,10 @@
+CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall
+
 .PHONY : comp norm
 
 comp :
-	$(CC) libft/ft_strlen.c pipex_error_management.c pipex.c -o pipex.out
+	$(CC) $(CFLAGS) libft/ft_strdup.c libft/ft_strlen.c pipex_error_management.c pipex.c -o pipex.out
 
 norm :
 	norminette *.c pipex.h
