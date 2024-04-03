@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:27:15 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/03 15:55:31 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/03 16:37:21 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 struct	s_cmddata
 {
 	char	*cmdname;
+	char	**options;
 };
 typedef struct s_cmddata	t_cmddata;
 
@@ -35,7 +36,7 @@ struct	s_prgdata
 {
 	char		*infile;
 	char		*outfile;
-	t_cmddata	*cmddata;
+	t_cmddata	**cmddata;
 };
 typedef struct s_prgdata	t_prgdata;
 
