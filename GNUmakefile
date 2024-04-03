@@ -1,7 +1,7 @@
 .PHONY : comp norm
 
 comp :
-	$(CC) libft/ft_strlen.c pipex.c -o pipex.out
+	$(CC) libft/ft_strlen.c pipex_error_management.c pipex.c -o pipex.out
 
 norm :
 	norminette *.c pipex.h

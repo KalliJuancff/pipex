@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_error_management.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/03 10:27:15 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/03 12:21:38 by jfidalgo         ###   ########.fr       */
+/*   Created: 2024/04/03 12:03:01 by jfidalgo          #+#    #+#             */
+/*   Updated: 2024/04/03 12:16:38 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "pipex.h"
 
-	// perror
-# include <stdio.h>
-	// exit, wait
-# include <stdlib.h>
-	// STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO, ...
-	// ... close, fork, getpid, pid_t, read, write
-# include <unistd.h>
-
-# include "libft/libft.h"
-
-#define ERR_NUM_PARAMS_KO 1
-
-void	ft_exit(int errcode, char *errdesc);
-
-#endif
+void	ft_exit(int errcode, char *errdesc)
+{
+	write(STDERR_FILENO, errdesc, ft_strlen(errdesc));
+	write(STDERR_FILENO, ".\n", 2);
+	exit(errcode);
+}
