@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:27:15 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/03 16:37:21 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/03 18:09:01 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "libft/libft.h"
 
 # define ERR_NUM_PARAMS_KO 1
+# define ERR_MALLOC_FAILED 2
 
 struct	s_cmddata
 {
@@ -40,6 +41,7 @@ struct	s_prgdata
 };
 typedef struct s_prgdata	t_prgdata;
 
-void	ft_exit(int errcode, char *errdesc);
+void	ft_exit(int errcode);
+void	ft_exit2(int errcode, char *errdesc);
 
 #endif

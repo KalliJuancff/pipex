@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/03 17:53:18 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/03 18:22:21 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	validate_arguments(int argc, char *argv[])
 {
 	if (argc != 5)
-		ft_exit(ERR_NUM_PARAMS_KO, "Número de parámetros incorrecto");
+		ft_exit2(ERR_NUM_PARAMS_KO, "Número de parámetros incorrecto");
 }
 
 t_cmddata	*create_command_data(char *argv[], int index)
@@ -75,7 +75,7 @@ int	main(int argc, char *argv[])
 	t_prgdata	*data;
 	int			i;
 
-	// validate_arguments(argc, argv);
+	validate_arguments(argc, argv);
 	data = create_program_data(argc, argv);
 	printf(" Infile: %s\n", data->infile);
 	i = 0;
