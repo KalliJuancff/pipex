@@ -6,15 +6,15 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:27:15 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/04 15:39:29 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:48:10 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-	// open, OWR_ONLY
-#include <fcntl.h>
+	// open, O_CREAT, OWR_ONLY, S_IRUSR, S_IWUSR, S_IRGRP, S_IROTH
+# include <fcntl.h>
 	// perror
 # include <stdio.h>
 	// exit, wait

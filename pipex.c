@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/04 15:37:58 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:55:59 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,28 @@ void	show_program_data(t_prgdata data)
 
 void	exec_pipex(t_prgdata data)
 {
-	int	fds_pipe[2];
-	int	fd_file;
-	int	pid;
-	int status;
+	int		fds_pipe[2];
+	int		fd_file;
+	int		pid;
+	int		flags;
+	mode_t	mode;
+	int		status;
 
 	pipe(fds_pipe);
-
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("Error en la ejecución de 'fork'.\n");
 		exit(ERR_EXECUTING_FORK);
 	}
-	if (pid == 0)  // Hijo
+	if (pid == 0)
 	{
 		close(fds_pipe[READ_END]);
 		dup2(fds_pipe[WRITE_END], STDOUT_FILENO);
 		close(fds_pipe[WRITE_END]);
 		execlp("/bin/ls", "ls", "-l", NULL);
 	}
-	else  // Padre
+	else
 	{
 		close(fds_pipe[WRITE_END]);
 		pid = fork();
@@ -60,20 +61,21 @@ void	exec_pipex(t_prgdata data)
 			perror("Error en la ejecución de 'fork'.\n");
 			exit(ERR_EXECUTING_FORK);
 		}
-		if (pid == 0)  // Hijo2
+		if (pid == 0)
 		{
-			fd_file = open(data.outfile, O_WRONLY);
+			flags = O_CREAT | O_WRONLY;
+			mode = (S_IRUSR | S_IWUSR) | S_IRGRP | S_IROTH;
+			fd_file = open(data.outfile, flags, mode);
 			dup2(fds_pipe[READ_END], STDIN_FILENO);
 			close(fds_pipe[READ_END]);
 			dup2(fd_file, STDOUT_FILENO);
 			execlp("/usr/bin/wc", "wc", NULL);
 		}
-		else  // Padre
+		else
 		{
 			close(fds_pipe[READ_END]);
 		}
 	}
-
 	wait(&status);
 	wait(&status);
 }
