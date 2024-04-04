@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/04 16:55:59 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/04 18:54:33 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,13 @@ void	exec_pipex(t_prgdata data)
 	}
 	if (pid == 0)
 	{
+		flags = O_RDONLY;
+		fd_file = open(data.infile, flags);
+		dup2(fd_file, STDIN_FILENO);
 		close(fds_pipe[READ_END]);
 		dup2(fds_pipe[WRITE_END], STDOUT_FILENO);
 		close(fds_pipe[WRITE_END]);
-		execlp("/bin/ls", "ls", "-l", NULL);
+		execlp("/usr/bin/tail", "tail", "-n", "4", NULL);
 	}
 	else
 	{
@@ -66,10 +69,10 @@ void	exec_pipex(t_prgdata data)
 			flags = O_CREAT | O_WRONLY;
 			mode = (S_IRUSR | S_IWUSR) | S_IRGRP | S_IROTH;
 			fd_file = open(data.outfile, flags, mode);
+			dup2(fd_file, STDOUT_FILENO);
 			dup2(fds_pipe[READ_END], STDIN_FILENO);
 			close(fds_pipe[READ_END]);
-			dup2(fd_file, STDOUT_FILENO);
-			execlp("/usr/bin/wc", "wc", NULL);
+			execlp("/usr/bin/head", "head", "-n", "3", NULL);
 		}
 		else
 		{
