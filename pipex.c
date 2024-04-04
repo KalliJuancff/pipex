@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/04 11:41:53 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/04 11:48:05 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	validate_arguments(int argc, char *argv[])
 		ft_exit(ERR_NUM_PARAMS_KO);
 }
 
+// TODO: Validar que malloc NO devuelva NULL
 void	initialize_program_data(t_prgdata *data, int argc, char *argv[])
 {
 	int			count;
@@ -27,7 +28,6 @@ void	initialize_program_data(t_prgdata *data, int argc, char *argv[])
 	data->outfile = argv[argc - 1];
 	count = argc - 2 - 1;
 	data->commands = (char **) malloc((count + 1) * sizeof(char *));
-	// TODO: Validar que malloc NO devuelva NULL
 	i = 0;
 	while (i < count)
 	{
