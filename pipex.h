@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:27:15 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/04 11:15:49 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/04 11:29:27 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include "libft/libft.h"
 
 # define ERR_NUM_PARAMS_KO 1
-# define ERR_MALLOC_FAILED 2
 
 struct	s_prgdata
 {
