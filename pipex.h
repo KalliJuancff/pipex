@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:27:15 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/03 21:26:50 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/04 10:21:12 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ struct	s_prgdata
 {
 	char		*infile;
 	char		*outfile;
+	char		**commands;
 	t_cmddata	**cmddata;
 };
 typedef struct s_prgdata	t_prgdata;

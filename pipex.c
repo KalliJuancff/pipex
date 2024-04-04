@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/03 21:33:51 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/04 10:28:48 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ t_cmddata	*create_command_data(char *argv[], int index)
 	return (result);
 }
 
-t_prgdata	*create_program_data(int argc, char *argv[])
+// TODO: ren. function name "create_program_data" to, by ex., "initialize_(...)"
+// TODO: ren. param name "result" to, by ex., "data"
+void	create_program_data(t_prgdata *result, int argc, char *argv[])
 {
-	t_prgdata	*result;
 	int			count;
 	int			i;
 
-	result = (t_prgdata *) malloc(1 * sizeof(t_prgdata));
 	result->infile = argv[1];
 	result->outfile = argv[argc - 1];
 	count = argc - 2 - 1;
@@ -45,7 +45,6 @@ t_prgdata	*create_program_data(int argc, char *argv[])
 		i++;
 	}
 	result->cmddata[i] = NULL;
-	return (result);
 }
 
 void	release_command_data(t_cmddata *cmddata)
@@ -65,24 +64,23 @@ void	release_program_data(t_prgdata *prgdata)
 		i++;
 	}
 	free(prgdata->cmddata);
-	free(prgdata);
 }
 
 int	main(int argc, char *argv[])
 {
-	t_prgdata	*data;
+	t_prgdata	data;
 	int			i;
 
 	// validate_arguments(argc, argv);
-	data = create_program_data(argc, argv);
-	printf(" Infile: %s\n", data->infile);
+	create_program_data(&data, argc, argv);
+	printf(" Infile: %s\n", data.infile);
 	i = 0;
-	while (data->cmddata[i] != NULL)
+	while (data.cmddata[i] != NULL)
 	{
-		printf("Cmd. #%d: %s\n", i + 1, data->cmddata[i]->cmdname);
+		printf("Cmd. #%d: %s\n", i + 1, data.cmddata[i]->cmdname);
 		i++;
 	}
-	printf("Outfile: %s\n", data->outfile);
-	release_program_data(data);
+	printf("Outfile: %s\n", data.outfile);
+	release_program_data(&data);
 	return (0);
 }
