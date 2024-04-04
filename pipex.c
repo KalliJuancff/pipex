@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/04 10:28:48 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/04 10:44:35 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,22 @@ t_cmddata	*create_command_data(char *argv[], int index)
 	return (result);
 }
 
-// TODO: ren. function name "create_program_data" to, by ex., "initialize_(...)"
-// TODO: ren. param name "result" to, by ex., "data"
-void	create_program_data(t_prgdata *result, int argc, char *argv[])
+void	initialize_program_data(t_prgdata *data, int argc, char *argv[])
 {
 	int			count;
 	int			i;
 
-	result->infile = argv[1];
-	result->outfile = argv[argc - 1];
+	data->infile = argv[1];
+	data->outfile = argv[argc - 1];
 	count = argc - 2 - 1;
-	result->cmddata = (t_cmddata **) malloc((count + 1) * sizeof(t_cmddata *));
+	data->cmddata = (t_cmddata **) malloc((count + 1) * sizeof(t_cmddata *));
 	i = 0;
 	while (i < count)
 	{
-		result->cmddata[i] = create_command_data(argv, i + 2);
+		data->cmddata[i] = create_command_data(argv, i + 2);
 		i++;
 	}
-	result->cmddata[i] = NULL;
+	data->cmddata[i] = NULL;
 }
 
 void	release_command_data(t_cmddata *cmddata)
@@ -72,7 +70,7 @@ int	main(int argc, char *argv[])
 	int			i;
 
 	// validate_arguments(argc, argv);
-	create_program_data(&data, argc, argv);
+	initialize_program_data(&data, argc, argv);
 	printf(" Infile: %s\n", data.infile);
 	i = 0;
 	while (data.cmddata[i] != NULL)
