@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:03:01 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/03 18:11:56 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/03 21:31:19 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_exit(int errcode)
 {
-	if (errcode == ERR_NUM_PARAMS_KO)
+	if (errcode == ERR_MALLOC_FAILED)
 		ft_exit2(errcode, "La ejecución de la función 'malloc' falló");
 }
 

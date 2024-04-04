@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/03 18:22:21 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/03 21:33:51 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ t_prgdata	*create_program_data(int argc, char *argv[])
 	int			i;
 
 	result = (t_prgdata *) malloc(1 * sizeof(t_prgdata));
-	result->infile = ft_strdup(argv[1]);
-	result->outfile = ft_strdup(argv[argc - 1]);
+	result->infile = argv[1];
+	result->outfile = argv[argc - 1];
 	count = argc - 2 - 1;
 	result->cmddata = (t_cmddata **) malloc((count + 1) * sizeof(t_cmddata *));
 	i = 0;
@@ -58,8 +58,6 @@ void	release_program_data(t_prgdata *prgdata)
 {
 	int	i;
 
-	free(prgdata->infile);
-	free(prgdata->outfile);
 	i = 0;
 	while (prgdata->cmddata[i] != NULL)
 	{
@@ -75,7 +73,7 @@ int	main(int argc, char *argv[])
 	t_prgdata	*data;
 	int			i;
 
-	validate_arguments(argc, argv);
+	// validate_arguments(argc, argv);
 	data = create_program_data(argc, argv);
 	printf(" Infile: %s\n", data->infile);
 	i = 0;

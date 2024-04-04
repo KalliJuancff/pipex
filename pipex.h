@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:27:15 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/03 18:09:01 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/03 21:26:50 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 struct	s_cmddata
 {
 	char	*cmdname;
-	char	**options;
 };
 typedef struct s_cmddata	t_cmddata;
 
