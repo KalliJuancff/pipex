@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/04 18:54:33 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/07 15:44:06 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	show_program_data(t_prgdata data)
 	i = 0;
 	while (data.commands[i] != NULL)
 	{
-		printf("Cmd. #%d: %s\n", i + 1, data.commands[i]);
+		printf("Cmd. #%d / %d: %s\n", i + 1, data.commands_number, data.commands[i]);
 		i++;
 	}
 	printf("Outfile: %s\n", data.outfile);
@@ -87,9 +87,9 @@ int	main(int argc, char *argv[])
 {
 	t_prgdata	data;
 
-	validate_arguments(argc, argv);
+	// validate_arguments(argc, argv);
 	initialize_program_data(&data, argc, argv);
-	// show_program_data(data);
+	show_program_data(data);
 	exec_pipex(data);
 	release_program_data(data);
 	return (0);
