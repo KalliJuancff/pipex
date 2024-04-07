@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:27:15 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/07 15:40:21 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/07 18:08:32 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@
 
 # define ERR_NUM_PARAMS_KO 1
 # define ERR_EXECUTING_MALLOC 2
-# define ERR_EXECUTING_FORK 3
+# define ERR_EXECUTING_PIPE 3
+# define ERR_EXECUTING_FORK 4
+# define ERR_EXECUTING_DUP2 5
+# define ERR_EXECUTING_EXEC 7
 
 struct	s_prgdata
 {
