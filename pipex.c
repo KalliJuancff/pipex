@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/07 21:27:24 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:22:44 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,7 @@ void	exec_pipeline(t_prgdata data)
 			if (pid == 0)
 			{
 				dup2(prevReadFd, STDIN_FILENO);
-				close(pipefd[READ_END]);
-				close(pipefd[WRITE_END]);
+				close(prevReadFd);
 				flags = O_CREAT | O_WRONLY | O_TRUNC;
 				mode = (S_IRUSR | S_IWUSR) | S_IRGRP | S_IROTH;
 				filefd = open(data.outfile, flags, mode);
@@ -94,9 +93,10 @@ void	exec_pipeline(t_prgdata data)
 			if (pid == 0)
 			{
 				dup2(prevReadFd, STDIN_FILENO);
-				close(pipefd[READ_END]);
+				close(prevReadFd);
 				dup2(pipefd[WRITE_END], STDOUT_FILENO);
 				close(pipefd[WRITE_END]);
+				close(pipefd[READ_END]);
 				// execlp("/bin/sh", "sh", "-c", "echo 7", NULL);
 				// execlp("/usr", "cat", "-e", NULL);
 				// execlp("/bin/date", "date", NULL);
