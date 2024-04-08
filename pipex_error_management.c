@@ -6,15 +6,15 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:03:01 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/08 16:35:35 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/08 19:14:15 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_exit(char *prefix_err_msg)
+void	ft_exit()
 {
-	perror(prefix_err_msg);
+	perror(NULL);
 	exit(errno);
 }
 

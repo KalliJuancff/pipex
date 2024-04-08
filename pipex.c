@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/08 17:30:59 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/08 19:21:04 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,19 @@
 
 #define READ_END 0
 #define WRITE_END 1
+
+void	test_open_and_close(t_prgdata data)
+{
+	int	flags;
+	int	filefd;
+
+	flags = O_RDONLY;
+	filefd = open(data.infile, flags);
+	if (filefd == -1)
+		ft_exit();
+	if (close(filefd + 1000) == -1)
+		ft_exit();
+}
 
 void	show_program_data(t_prgdata data)
 {
@@ -150,6 +163,7 @@ int	main(int argc, char *argv[])
 
 	// validate_arguments(argc, argv);
 	initialize_program_data(&data, argc, argv);
+	test_open_and_close(data);
 	// show_program_data(data);
 	// execlp("/bin/sh", "sh", "-c", "echo 7", NULL);
 	// execlp("/bin", "cat", "-e", NULL);

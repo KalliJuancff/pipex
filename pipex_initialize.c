@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:29 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/08 16:39:59 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/08 18:22:14 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	initialize_program_data(t_prgdata *data, int argc, char *argv[])
 	data->commands_number = count;
 	data->commands = (char **) malloc((count + 1) * sizeof(char *));
 	if (data->commands == NULL)
-		ft_exit(ERR_MSG(malloc));
+		ft_exit();
 	i = 0;
 	while (i < count)
 	{
