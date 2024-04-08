@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:29 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/08 18:22:14 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/08 20:04:13 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,28 @@ void	validate_arguments(int argc, char *argv[])
 		ft_exit2(ERR_NUM_PARAMS_KO, "Número de parámetros incorrecto");
 }
 
-void	initialize_program_data(t_prgdata *data, int argc, char *argv[])
+void	initialize_program_data(t_prgdata *dt, int argc, char *argv[])
 {
 	int	count;
 	int	i;
 
-	data->infile = argv[1];
-	data->outfile = argv[argc - 1];
+	dt->infile = argv[1];
+	dt->outfile = argv[argc - 1];
 	count = argc - 2 - 1;
-	data->commands_number = count;
-	data->commands = (char **) malloc((count + 1) * sizeof(char *));
-	if (data->commands == NULL)
+	dt->commands_number = count;
+	dt->commands = (char **) malloc((count + 1) * sizeof(char *));
+	if (dt->commands == NULL)
 		ft_exit();
 	i = 0;
 	while (i < count)
 	{
-		data->commands[i] = argv[i + 2];
+		dt->commands[i] = argv[i + 2];
 		i++;
 	}
-	data->commands[i] = NULL;
+	dt->commands[i] = NULL;
 }
 
-void	release_program_data(t_prgdata data)
+void	release_program_data(t_prgdata dt)
 {
-	free(data.commands);
+	free(dt.commands);
 }

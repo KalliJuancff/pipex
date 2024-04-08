@@ -6,13 +6,13 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:03:01 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/08 19:14:15 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/08 20:18:21 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_exit()
+void	ft_exit(void)
 {
 	perror(NULL);
 	exit(errno);
