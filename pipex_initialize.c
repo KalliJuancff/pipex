@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:29 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/07 15:39:42 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:39:59 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,21 @@
 void	validate_arguments(int argc, char *argv[])
 {
 	if (argc != 5)
-		ft_exit(ERR_NUM_PARAMS_KO);
+		ft_exit2(ERR_NUM_PARAMS_KO, "Número de parámetros incorrecto");
 }
 
-// TODO: Validar que malloc NO devuelva NULL
 void	initialize_program_data(t_prgdata *data, int argc, char *argv[])
 {
-	int			count;
-	int			i;
+	int	count;
+	int	i;
 
 	data->infile = argv[1];
 	data->outfile = argv[argc - 1];
 	count = argc - 2 - 1;
 	data->commands_number = count;
 	data->commands = (char **) malloc((count + 1) * sizeof(char *));
+	if (data->commands == NULL)
+		ft_exit(ERR_MSG(malloc));
 	i = 0;
 	while (i < count)
 	{

@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/08 11:01:02 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:34:06 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,24 @@ void	show_program_data(t_prgdata data)
 	i = 0;
 	while (data.commands[i] != NULL)
 	{
-		printf("Cmd. #%d / %d: %s\n", i + 1, data.commands_number, data.commands[i]);
+		printf("Cmd. #%d / %d: ", i + 1, data.commands_number);
+		printf("%s\n", data.commands[i]);
 		i++;
 	}
 	printf("Outfile: %s\n", data.outfile);
+}
+
+void	test_open_and_close(t_prgdata data)
+{
+	int	flags;
+	int	filefd;
+
+	flags = O_RDONLY;
+	filefd = open(data.infile, flags);
+	if (filefd == -1)
+		ft_exit(ERR_MSG(open));
+	if (close(filefd + 1000) == -1)
+		ft_exit(ERR_MSG(close));;
 }
 
 void	redirect_first_command(t_prgdata data, int pipefd[2])
@@ -43,14 +57,14 @@ void	redirect_first_command(t_prgdata data, int pipefd[2])
 	close(pipefd[READ_END]);
 }
 
-void	redirect_last_command(t_prgdata data, int prevReadFd)
+void	redirect_last_command(t_prgdata data, int prev_read_fd)
 {
 	int		flags;
 	mode_t	mode;
 	int		filefd;
 
-	dup2(prevReadFd, STDIN_FILENO);
-	close(prevReadFd);
+	dup2(prev_read_fd, STDIN_FILENO);
+	close(prev_read_fd);
 	flags = O_CREAT | O_WRONLY | O_TRUNC;
 	mode = (S_IRUSR | S_IWUSR) | S_IRGRP | S_IROTH;
 	filefd = open(data.outfile, flags, mode);
@@ -58,10 +72,10 @@ void	redirect_last_command(t_prgdata data, int prevReadFd)
 	close(filefd);
 }
 
-void	redirect_middle_command(t_prgdata data, int prevReadFd, int pipefd[2])
+void	redirect_middle_command(t_prgdata data, int prev_read_fd, int pipefd[2])
 {
-	dup2(prevReadFd, STDIN_FILENO);
-	close(prevReadFd);
+	dup2(prev_read_fd, STDIN_FILENO);
+	close(prev_read_fd);
 	dup2(pipefd[WRITE_END], STDOUT_FILENO);
 	close(pipefd[WRITE_END]);
 	close(pipefd[READ_END]);
@@ -72,7 +86,7 @@ void	exec_pipeline(t_prgdata data)
 	int	i;
 	int	pipefd[2];
 	int	pid;
-	int	prevReadFd;
+	int	prev_read_fd;
 
 	i = 0;
 	while (i < data.commands_number)
@@ -88,7 +102,7 @@ void	exec_pipeline(t_prgdata data)
 			}
 			else
 			{
-				prevReadFd = pipefd[READ_END];
+				prev_read_fd = pipefd[READ_END];
 				close(pipefd[WRITE_END]);
 			}
 		}
@@ -97,11 +111,11 @@ void	exec_pipeline(t_prgdata data)
 			pid = fork();
 			if (pid == 0)
 			{
-				redirect_last_command(data, prevReadFd);
+				redirect_last_command(data, prev_read_fd);
 				execlp("/usr/bin/wc", "wc", "-l", NULL);
 			}
 			else
-				close(prevReadFd);
+				close(prev_read_fd);
 		}
 		else
 		{
@@ -109,13 +123,13 @@ void	exec_pipeline(t_prgdata data)
 			pid = fork();
 			if (pid == 0)
 			{
-				redirect_middle_command(data, prevReadFd, pipefd);
+				redirect_middle_command(data, prev_read_fd, pipefd);
 				execlp("/usr/bin/grep", "grep", "O", NULL);
 			}
 			else
 			{
-				close(prevReadFd);
-				prevReadFd = pipefd[READ_END];
+				close(prev_read_fd);
+				prev_read_fd = pipefd[READ_END];
 				close(pipefd[WRITE_END]);
 			}
 		}
@@ -132,6 +146,10 @@ int	main(int argc, char *argv[])
 {
 	t_prgdata	data;
 
+	validate_arguments(argc, argv);
+	initialize_program_data(&data, argc, argv);
+	test_open_and_close(data);
+	return (0);
 	// validate_arguments(argc, argv);
 	initialize_program_data(&data, argc, argv);
 	// show_program_data(data);

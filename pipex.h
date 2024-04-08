@@ -6,13 +6,15 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:27:15 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/07 18:08:32 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:44:06 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
+	// errno
+# include <errno.h>
 	// open, O_CREAT, OWR_ONLY, S_IRUSR, S_IWUSR, S_IRGRP, S_IROTH
 # include <fcntl.h>
 	// perror
@@ -25,12 +27,8 @@
 
 # include "libft/libft.h"
 
-# define ERR_NUM_PARAMS_KO 1
-# define ERR_EXECUTING_MALLOC 2
-# define ERR_EXECUTING_PIPE 3
-# define ERR_EXECUTING_FORK 4
-# define ERR_EXECUTING_DUP2 5
-# define ERR_EXECUTING_EXEC 7
+# define ERR_MSG(func_name) ("Se produjo un error al ejecutar la función '" #func_name "'")
+# define ERR_NUM_PARAMS_KO -1
 
 struct	s_prgdata
 {
@@ -45,7 +43,7 @@ void	validate_arguments(int argc, char *argv[]);
 void	initialize_program_data(t_prgdata *data, int argc, char *argv[]);
 void	release_program_data(t_prgdata data);
 
-void	ft_exit(int errcode);
-void	ft_exit2(int errcode, char *errdesc);
+void	ft_exit(char *prefix_err_msg);
+void	ft_exit2(int err_code, char *err_msg);
 
 #endif
