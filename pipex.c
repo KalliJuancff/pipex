@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/08 16:34:06 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/08 17:30:59 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,6 @@ void	show_program_data(t_prgdata data)
 		i++;
 	}
 	printf("Outfile: %s\n", data.outfile);
-}
-
-void	test_open_and_close(t_prgdata data)
-{
-	int	flags;
-	int	filefd;
-
-	flags = O_RDONLY;
-	filefd = open(data.infile, flags);
-	if (filefd == -1)
-		ft_exit(ERR_MSG(open));
-	if (close(filefd + 1000) == -1)
-		ft_exit(ERR_MSG(close));;
 }
 
 void	redirect_first_command(t_prgdata data, int pipefd[2])
@@ -81,58 +68,73 @@ void	redirect_middle_command(t_prgdata data, int prev_read_fd, int pipefd[2])
 	close(pipefd[READ_END]);
 }
 
+void	execute_first_command(t_prgdata data, int *prev_read_fd)
+{
+	int	pipefd[2];
+	int	pid;
+
+	pipe(pipefd);
+	pid = fork();
+	if (pid == 0)
+	{
+		redirect_first_command(data, pipefd);
+		execlp("/usr/bin/grep", "grep", "-v", "T", NULL);
+	}
+	else
+	{
+		*prev_read_fd = pipefd[READ_END];
+		close(pipefd[WRITE_END]);
+	}
+}
+
+void	execute_last_command(t_prgdata data, int prev_read_fd)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		redirect_last_command(data, prev_read_fd);
+		execlp("/usr/bin/wc", "wc", "-l", NULL);
+	}
+	else
+		close(prev_read_fd);
+}
+
+void	execute_middle_command(t_prgdata data, int *prev_read_fd)
+{
+	int	pipefd[2];
+	int	pid;
+
+	pipe(pipefd);
+	pid = fork();
+	if (pid == 0)
+	{
+		redirect_middle_command(data, *prev_read_fd, pipefd);
+		execlp("/usr/bin/grep", "grep", "O", NULL);
+	}
+	else
+	{
+		close(*prev_read_fd);
+		*prev_read_fd = pipefd[READ_END];
+		close(pipefd[WRITE_END]);
+	}
+}
+
 void	exec_pipeline(t_prgdata data)
 {
 	int	i;
-	int	pipefd[2];
-	int	pid;
 	int	prev_read_fd;
 
 	i = 0;
 	while (i < data.commands_number)
 	{
 		if (i == 0)
-		{
-			pipe(pipefd);
-			pid = fork();
-			if (pid == 0)
-			{
-				redirect_first_command(data, pipefd);
-				execlp("/usr/bin/grep", "grep", "-v", "T", NULL);
-			}
-			else
-			{
-				prev_read_fd = pipefd[READ_END];
-				close(pipefd[WRITE_END]);
-			}
-		}
+			execute_first_command(data, &prev_read_fd);
 		else if (i == (data.commands_number - 1))
-		{
-			pid = fork();
-			if (pid == 0)
-			{
-				redirect_last_command(data, prev_read_fd);
-				execlp("/usr/bin/wc", "wc", "-l", NULL);
-			}
-			else
-				close(prev_read_fd);
-		}
+			execute_last_command(data, prev_read_fd);
 		else
-		{
-			pipe(pipefd);
-			pid = fork();
-			if (pid == 0)
-			{
-				redirect_middle_command(data, prev_read_fd, pipefd);
-				execlp("/usr/bin/grep", "grep", "O", NULL);
-			}
-			else
-			{
-				close(prev_read_fd);
-				prev_read_fd = pipefd[READ_END];
-				close(pipefd[WRITE_END]);
-			}
-		}
+			execute_middle_command(data, &prev_read_fd);
 		i++;
 	}
 	while (i < data.commands_number)
@@ -146,10 +148,6 @@ int	main(int argc, char *argv[])
 {
 	t_prgdata	data;
 
-	validate_arguments(argc, argv);
-	initialize_program_data(&data, argc, argv);
-	test_open_and_close(data);
-	return (0);
 	// validate_arguments(argc, argv);
 	initialize_program_data(&data, argc, argv);
 	// show_program_data(data);
