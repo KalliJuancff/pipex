@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/08 10:22:44 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/08 11:01:02 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,49 @@ void	show_program_data(t_prgdata data)
 	printf("Outfile: %s\n", data.outfile);
 }
 
+void	redirect_first_command(t_prgdata data, int pipefd[2])
+{
+	int	flags;
+	int	filefd;
+
+	flags = O_RDONLY;
+	filefd = open(data.infile, flags);
+	dup2(filefd, STDIN_FILENO);
+	close(filefd);
+	dup2(pipefd[WRITE_END], STDOUT_FILENO);
+	close(pipefd[WRITE_END]);
+	close(pipefd[READ_END]);
+}
+
+void	redirect_last_command(t_prgdata data, int prevReadFd)
+{
+	int		flags;
+	mode_t	mode;
+	int		filefd;
+
+	dup2(prevReadFd, STDIN_FILENO);
+	close(prevReadFd);
+	flags = O_CREAT | O_WRONLY | O_TRUNC;
+	mode = (S_IRUSR | S_IWUSR) | S_IRGRP | S_IROTH;
+	filefd = open(data.outfile, flags, mode);
+	dup2(filefd, STDOUT_FILENO);
+	close(filefd);
+}
+
+void	redirect_middle_command(t_prgdata data, int prevReadFd, int pipefd[2])
+{
+	dup2(prevReadFd, STDIN_FILENO);
+	close(prevReadFd);
+	dup2(pipefd[WRITE_END], STDOUT_FILENO);
+	close(pipefd[WRITE_END]);
+	close(pipefd[READ_END]);
+}
+
 void	exec_pipeline(t_prgdata data)
 {
 	int	i;
 	int	pipefd[2];
 	int	pid;
-	int	flags;
-	int filefd;
-	mode_t	mode;
 	int	prevReadFd;
 
 	i = 0;
@@ -48,16 +83,7 @@ void	exec_pipeline(t_prgdata data)
 			pid = fork();
 			if (pid == 0)
 			{
-				flags = O_RDONLY;
-				filefd = open(data.infile, flags);
-				dup2(filefd, STDIN_FILENO);
-				close(filefd);
-				dup2(pipefd[WRITE_END], STDOUT_FILENO);
-				close(pipefd[WRITE_END]);
-				close(pipefd[READ_END]);
-				// execlp("/usr/bin/tail", "tail", "-n", "4", NULL);
-				// execlp("/bin/sh", "sh", "-c", "echo 7", NULL);
-				// execlp("/bin/date", "date", NULL);
+				redirect_first_command(data, pipefd);
 				execlp("/usr/bin/grep", "grep", "-v", "T", NULL);
 			}
 			else
@@ -71,16 +97,7 @@ void	exec_pipeline(t_prgdata data)
 			pid = fork();
 			if (pid == 0)
 			{
-				dup2(prevReadFd, STDIN_FILENO);
-				close(prevReadFd);
-				flags = O_CREAT | O_WRONLY | O_TRUNC;
-				mode = (S_IRUSR | S_IWUSR) | S_IRGRP | S_IROTH;
-				filefd = open(data.outfile, flags, mode);
-				dup2(filefd, STDOUT_FILENO);
-				close(filefd);
-				// execlp("/usr/bin/head", "head", "-n", "3", NULL);
-				// execlp("/usr", "cat", "-e", NULL);
-				// execlp("/bin/date", "date", NULL);
+				redirect_last_command(data, prevReadFd);
 				execlp("/usr/bin/wc", "wc", "-l", NULL);
 			}
 			else
@@ -92,15 +109,7 @@ void	exec_pipeline(t_prgdata data)
 			pid = fork();
 			if (pid == 0)
 			{
-				dup2(prevReadFd, STDIN_FILENO);
-				close(prevReadFd);
-				dup2(pipefd[WRITE_END], STDOUT_FILENO);
-				close(pipefd[WRITE_END]);
-				close(pipefd[READ_END]);
-				// execlp("/bin/sh", "sh", "-c", "echo 7", NULL);
-				// execlp("/usr", "cat", "-e", NULL);
-				// execlp("/bin/date", "date", NULL);
-				// execlp("/bin/sh", "sh", "-c", "echo 18", NULL);
+				redirect_middle_command(data, prevReadFd, pipefd);
 				execlp("/usr/bin/grep", "grep", "O", NULL);
 			}
 			else
