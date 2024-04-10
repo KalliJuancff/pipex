@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/10 13:36:41 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/10 15:14:04 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@ void	show_program_data(t_prgdata dt)
 }
 */
 
-void	execute_first_command(t_prgdata dt, int *prev_read_fd)
+void	execute_first_command(t_prgdata dt, int *prev_fd, int ndx)
 {
 	int	pipefd[2];
 	int	pid;
 
+	ndx++;
 	pipe(pipefd);
 	pid = fork();
 	if (pid == 0)
@@ -43,44 +44,46 @@ void	execute_first_command(t_prgdata dt, int *prev_read_fd)
 	}
 	else
 	{
-		*prev_read_fd = pipefd[READ_END];
+		*prev_fd = pipefd[READ_END];
 		close(pipefd[WRITE_END]);
 	}
 }
 
-void	execute_last_command(t_prgdata dt, int prev_read_fd, int *last_pid)
+void	execute_last_command(t_prgdata dt, int prev_fd, int *last_pid, int ndx)
 {
 	int	pid;
 
+	ndx++;
 	pid = fork();
 	if (pid == 0)
 	{
-		redirect_last_command(dt, prev_read_fd);
+		redirect_last_command(dt, prev_fd);
 		execlp("/usr/bin/wc", "wc", "-l", NULL);
 	}
 	else
 	{
-		close(prev_read_fd);
+		close(prev_fd);
 		*last_pid = pid;
 	}
 }
 
-void	execute_middle_command(t_prgdata dt, int *prev_read_fd)
+void	execute_middle_command(t_prgdata dt, int *prev_fd, int ndx)
 {
 	int	pipefd[2];
 	int	pid;
 
+	ndx++;
 	pipe(pipefd);
 	pid = fork();
 	if (pid == 0)
 	{
-		redirect_middle_command(*prev_read_fd, pipefd);
+		redirect_middle_command(*prev_fd, pipefd);
 		execlp("/usr/bin/grep", "grep", "O", NULL);
 	}
 	else
 	{
-		close(*prev_read_fd);
-		*prev_read_fd = pipefd[READ_END];
+		close(*prev_fd);
+		*prev_fd = pipefd[READ_END];
 		close(pipefd[WRITE_END]);
 	}
 }
@@ -97,11 +100,11 @@ int	exec_pipeline(t_prgdata dt)
 	while (i < dt.commands_number)
 	{
 		if (i == 0)
-			execute_first_command(dt, &prev_read_fd);
+			execute_first_command(dt, &prev_read_fd, i);
 		else if (i == (dt.commands_number - 1))
-			execute_last_command(dt, prev_read_fd, &last_pid);
+			execute_last_command(dt, prev_read_fd, &last_pid, i);
 		else
-			execute_middle_command(dt, &prev_read_fd);
+			execute_middle_command(dt, &prev_read_fd, i);
 		i++;
 	}
 	status = 0;
