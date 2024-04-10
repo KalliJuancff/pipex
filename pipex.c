@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/10 15:14:04 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:09:47 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,25 @@ void	show_program_data(t_prgdata dt)
 }
 */
 
+void	execute_command(char *command)
+{
+	write(STDERR_FILENO, command, ft_strlen(command));
+	write(STDERR_FILENO, "\n", 1);
+}
+
 void	execute_first_command(t_prgdata dt, int *prev_fd, int ndx)
 {
 	int	pipefd[2];
 	int	pid;
 
-	ndx++;
 	pipe(pipefd);
 	pid = fork();
 	if (pid == 0)
 	{
 		redirect_first_command(dt, pipefd);
-		execlp("/usr/bin/grep", "grep", "-v", "T", NULL);
+		// execlp("/usr/bin/grep", "grep", "-v", "T", NULL);
+		execute_command(dt.commands[ndx]);
+		exit(0);
 	}
 	else
 	{
@@ -53,12 +60,13 @@ void	execute_last_command(t_prgdata dt, int prev_fd, int *last_pid, int ndx)
 {
 	int	pid;
 
-	ndx++;
 	pid = fork();
 	if (pid == 0)
 	{
 		redirect_last_command(dt, prev_fd);
-		execlp("/usr/bin/wc", "wc", "-l", NULL);
+		// execlp("/usr/bin/wc", "wc", "-l", NULL);
+		execute_command(dt.commands[ndx]);
+		exit(0);
 	}
 	else
 	{
@@ -72,13 +80,14 @@ void	execute_middle_command(t_prgdata dt, int *prev_fd, int ndx)
 	int	pipefd[2];
 	int	pid;
 
-	ndx++;
 	pipe(pipefd);
 	pid = fork();
 	if (pid == 0)
 	{
 		redirect_middle_command(*prev_fd, pipefd);
-		execlp("/usr/bin/grep", "grep", "O", NULL);
+		// execlp("/usr/bin/grep", "grep", "O", NULL);
+		execute_command(dt.commands[ndx]);
+		exit(0);
 	}
 	else
 	{
