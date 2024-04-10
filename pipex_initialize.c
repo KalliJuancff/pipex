@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:29 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/10 10:21:27 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/10 11:12:59 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	validate_arguments(int argc, char *argv[])
 {
 	if (argc != 5)
-		exit_with_custom_error(ERR_NUM_PARAMS_KO, "Número de parámetros incorrecto");
+		exit_with_custom_error(ERR_NUM_PARAMS_KO, "Nº parámetros incorrecto");
 }
 
 void	initialize_program_data(t_prgdata *dt, int argc, char *argv[])
