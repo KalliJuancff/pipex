@@ -6,12 +6,13 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/10 12:56:30 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:36:41 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/*
 void	show_program_data(t_prgdata dt)
 {
 	int	i;
@@ -26,6 +27,7 @@ void	show_program_data(t_prgdata dt)
 	}
 	printf("Outfile: %s\n", dt.outfile);
 }
+*/
 
 void	execute_first_command(t_prgdata dt, int *prev_read_fd)
 {
@@ -54,7 +56,7 @@ void	execute_last_command(t_prgdata dt, int prev_read_fd, int *last_pid)
 	if (pid == 0)
 	{
 		redirect_last_command(dt, prev_read_fd);
-		execlp("/usr/bin/wcxyz", "wcxyz", "-l", NULL);
+		execlp("/usr/bin/wc", "wc", "-l", NULL);
 	}
 	else
 	{
@@ -117,11 +119,9 @@ int	main(int argc, char *argv[])
 	t_prgdata	data;
 	int			result;
 
-	// validate_arguments(argc, argv);
+	// if (argc != 5)
+	//	exit_with_custom_error(ERR_NUM_PARAMS_KO, "Nº parámetros incorrecto");
 	initialize_program_data(&data, argc, argv);
-	// show_program_data(data);
-	// execlp("/bin/sh", "sh", "-c", "echo 7", NULL);
-	// execlp("/bin", "cat", "-e", NULL);
 	result = exec_pipeline(data);
 	release_program_data(data);
 	return (result);
