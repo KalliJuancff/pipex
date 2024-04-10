@@ -6,13 +6,12 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/10 16:09:47 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:55:52 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-/*
 void	show_program_data(t_prgdata dt)
 {
 	int	i;
@@ -25,9 +24,15 @@ void	show_program_data(t_prgdata dt)
 		printf("%s\n", dt.commands[i]);
 		i++;
 	}
+	i = 0;
+	while (dt.env_variables[i] != NULL)
+	{
+		printf("   Var. #%02d: ", i + 1);
+		printf("%s\n", dt.env_variables[i]);
+		i++;
+	}
 	printf("Outfile: %s\n", dt.outfile);
 }
-*/
 
 void	execute_command(char *command)
 {
@@ -47,7 +52,6 @@ void	execute_first_command(t_prgdata dt, int *prev_fd, int ndx)
 		redirect_first_command(dt, pipefd);
 		// execlp("/usr/bin/grep", "grep", "-v", "T", NULL);
 		execute_command(dt.commands[ndx]);
-		exit(0);
 	}
 	else
 	{
@@ -66,7 +70,6 @@ void	execute_last_command(t_prgdata dt, int prev_fd, int *last_pid, int ndx)
 		redirect_last_command(dt, prev_fd);
 		// execlp("/usr/bin/wc", "wc", "-l", NULL);
 		execute_command(dt.commands[ndx]);
-		exit(0);
 	}
 	else
 	{
@@ -87,7 +90,6 @@ void	execute_middle_command(t_prgdata dt, int *prev_fd, int ndx)
 		redirect_middle_command(*prev_fd, pipefd);
 		// execlp("/usr/bin/grep", "grep", "O", NULL);
 		execute_command(dt.commands[ndx]);
-		exit(0);
 	}
 	else
 	{
@@ -106,7 +108,7 @@ int	exec_pipeline(t_prgdata dt)
 	int	result;
 
 	i = 0;
-	while (i < dt.commands_number)
+	while (dt.commands[i] != NULL)
 	{
 		if (i == 0)
 			execute_first_command(dt, &prev_read_fd, i);
@@ -118,7 +120,7 @@ int	exec_pipeline(t_prgdata dt)
 	}
 	status = 0;
 	i = 0;
-	while (i++ < dt.commands_number)
+	while (dt.commands[i++] != NULL)
 	{
 		if (wait(&status) == last_pid && WIFEXITED(status))
 			result = WEXITSTATUS(status);
@@ -126,14 +128,18 @@ int	exec_pipeline(t_prgdata dt)
 	return (result);
 }
 
-int	main(int argc, char *argv[])
+int	main(int argc, char *argv[], char *envp[])
 {
 	t_prgdata	data;
 	int			result;
 
 	// if (argc != 5)
 	//	exit_with_custom_error(ERR_NUM_PARAMS_KO, "Nº parámetros incorrecto");
-	initialize_program_data(&data, argc, argv);
+	initialize_program_data(&data, argc, argv, envp);
+	show_program_data(data);
+	exit(0);
+
+	initialize_program_data(&data, argc, argv, envp);
 	result = exec_pipeline(data);
 	release_program_data(data);
 	return (result);

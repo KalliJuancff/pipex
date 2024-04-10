@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:27:15 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/10 10:37:51 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:51:39 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,16 @@
 
 struct	s_prgdata
 {
-	char		*infile;
-	char		*outfile;
-	char		**commands;
-	int			commands_number;
+	char	*infile;
+	char	*outfile;
+	char	**commands;
+	int		commands_number;
+	char	**env_variables;
 };
 typedef struct s_prgdata	t_prgdata;
 
 void	validate_arguments(int argc, char *argv[]);
-void	initialize_program_data(t_prgdata *dt, int argc, char *argv[]);
+void	initialize_program_data(t_prgdata *dt, int argc, char *argv[], char *envp[]);
 void	release_program_data(t_prgdata dt);
 
 void	redirect_first_command(t_prgdata dt, int pipefd[2]);

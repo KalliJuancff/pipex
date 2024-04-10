@@ -6,13 +6,13 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:40:29 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/10 13:34:27 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:52:55 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	initialize_program_data(t_prgdata *dt, int argc, char *argv[])
+void	initialize_program_data(t_prgdata *dt, int argc, char *argv[], char *envp[])
 {
 	int	count;
 	int	i;
@@ -30,6 +30,7 @@ void	initialize_program_data(t_prgdata *dt, int argc, char *argv[])
 		dt->commands[i] = argv[i + 2];
 		i++;
 	}
+	dt->env_variables = envp;
 	dt->commands[i] = NULL;
 }
 
