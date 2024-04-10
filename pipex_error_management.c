@@ -6,19 +6,19 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:03:01 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/08 20:18:21 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/10 10:20:05 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_exit(void)
+void	exit_with_internal_error(void)
 {
 	perror(NULL);
 	exit(errno);
 }
 
-void	ft_exit2(int err_code, char *err_msg)
+void	exit_with_custom_error(int err_code, char *err_msg)
 {
 	write(STDERR_FILENO, err_msg, ft_strlen(err_msg));
 	write(STDERR_FILENO, "\n", 1);

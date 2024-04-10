@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:27:15 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/08 20:17:53 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/10 10:20:12 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	redirect_first_command(t_prgdata dt, int pipefd[2]);
 void	redirect_last_command(t_prgdata dt, int prev_read_fd);
 void	redirect_middle_command(int prev_read_fd, int pipefd[2]);
 
-void	ft_exit(void);
-void	ft_exit2(int err_code, char *err_msg);
+void	exit_with_internal_error(void);
+void	exit_with_custom_error(int err_code, char *err_msg);
 
 #endif
