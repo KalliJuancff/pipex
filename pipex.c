@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/11 19:55:19 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/11 21:16:18 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,42 +133,41 @@ int	exec_pipeline(t_prgdata dt)
 	return (result);
 }
 
-char	*expand_filename(t_prgdata dt, char *filename)
+char	*expand_filename(char **path_dirs, char *filename)
 {
 	char	*result;
 	char	*temp;
 	int		i;
 
 	i = 0;
-	while (dt.env_variables[i] != NULL)
+	while (path_dirs[i] != NULL)
 	{
-		temp = ft_strjoin(dt.path_dirs[i], "/");
+		temp = ft_strjoin(path_dirs[i], "/");
 		result = ft_strjoin(temp, filename);
-		printf("%s\n", result);
 		free(temp);
 		if (access(result, F_OK) == 0)
-			break;
+			return (result);
 		i++;;
 	}
-	return (result);
+	return (NULL);
 }
 
 void	execute_command(t_prgdata dt, int ndx)
 {
 	char	*command;
 	char	**args;
-	// char	*path;
+	char	*command_name;
+	char	*fullname;
 
-	// pipex infile.txt "grep -v T" "grep O" "wc -l" outfile.txt
-	// execve (const char *path, char *const argv[], char *const envp[]);
-	// "grep -v T"
 	command = dt.commands[ndx];
 	args = ft_split(command, ' ');
 	if (args == NULL)
 		exit_with_internal_error();
-	execve(expand_filename(dt, args[0]), args, dt.env_variables);
-	// write(STDERR_FILENO, command, ft_strlen(command));
-	// write(STDERR_FILENO, "\n", 1);
+	command_name = args[0];
+	fullname = expand_filename(dt.path_dirs, command_name);
+	if (fullname == NULL)
+		exit_with_custom_error(ERR_FILE_NOT_FOUND, "Fichero no encontrado");
+	execve(fullname, args, dt.env_variables);
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -179,12 +178,13 @@ int	main(int argc, char *argv[], char *envp[])
 	// if (argc != 5)
 	//	exit_with_custom_error(ERR_INVALID_NUM_PARAMS, "Nº parámetros incorrecto");
 	initialize_program_data(&data, argc, argv, envp);
-	show_program_data(data);
-	execute_command(data, 0);
-	release_program_data(data);
-	return (0);
-
-	initialize_program_data(&data, argc, argv, envp);
+	// show_program_data(data);
+	// execute_command(data, 0);  // NOTA IMPORTANTE: OJO, la ejecución finalizará aquí
+	// printf("%s\n", expand_filename(data.path_dirs, "kill"));
+	// printf("%s\n", expand_filename(data.path_dirs, "rm"));
+	// printf("%s\n", expand_filename(data.path_dirs, "man"));
+	// printf("%s\n", expand_filename(data.path_dirs, "date"));
+	// printf("%s\n", expand_filename(data.path_dirs, "kk_de_la_vaka"));
 	result = exec_pipeline(data);
 	release_program_data(data);
 	return (result);
