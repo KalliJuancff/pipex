@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:27:15 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/11 18:09:34 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/11 18:44:10 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 
 # include "libft/libft.h"
 
-// TODO: Rename macro
 # define ERR_INVALID_NUM_PARAMS -1
 # define ERR_PATH_ENV_VAR_NOT_FOUND -2
 

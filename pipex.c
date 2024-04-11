@@ -6,11 +6,13 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/11 18:11:56 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/11 19:55:19 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	execute_command(t_prgdata dt, int ndx);
 
 void	show_program_data(t_prgdata dt)
 {
@@ -41,29 +43,6 @@ void	show_program_data(t_prgdata dt)
 		i++;
 	}
 	printf("Outfile: %s\n", dt.outfile);
-}
-
-/*
-char	*expand_filename(char *filename)
-{
-}
-*/
-
-void	execute_command(t_prgdata dt, int ndx)
-{
-	char	*command;
-	char	**args;
-	// char	*path;
-
-	// pipex infile.txt "grep -v T" "grep O" "wc -l" outfile.txt
-	// execve (const char *path, char *const argv[], char *const envp[]);
-	command = dt.commands[ndx];
-	args = ft_split(command, ' ');
-	if (args == NULL)
-		exit_with_internal_error();
-	// execve(, args, dt.env_variables);
-	// write(STDERR_FILENO, command, ft_strlen(command));
-	// write(STDERR_FILENO, "\n", 1);
 }
 
 void	execute_first_command(t_prgdata dt, int *prev_fd, int ndx)
@@ -154,6 +133,44 @@ int	exec_pipeline(t_prgdata dt)
 	return (result);
 }
 
+char	*expand_filename(t_prgdata dt, char *filename)
+{
+	char	*result;
+	char	*temp;
+	int		i;
+
+	i = 0;
+	while (dt.env_variables[i] != NULL)
+	{
+		temp = ft_strjoin(dt.path_dirs[i], "/");
+		result = ft_strjoin(temp, filename);
+		printf("%s\n", result);
+		free(temp);
+		if (access(result, F_OK) == 0)
+			break;
+		i++;;
+	}
+	return (result);
+}
+
+void	execute_command(t_prgdata dt, int ndx)
+{
+	char	*command;
+	char	**args;
+	// char	*path;
+
+	// pipex infile.txt "grep -v T" "grep O" "wc -l" outfile.txt
+	// execve (const char *path, char *const argv[], char *const envp[]);
+	// "grep -v T"
+	command = dt.commands[ndx];
+	args = ft_split(command, ' ');
+	if (args == NULL)
+		exit_with_internal_error();
+	execve(expand_filename(dt, args[0]), args, dt.env_variables);
+	// write(STDERR_FILENO, command, ft_strlen(command));
+	// write(STDERR_FILENO, "\n", 1);
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_prgdata	data;
@@ -163,7 +180,7 @@ int	main(int argc, char *argv[], char *envp[])
 	//	exit_with_custom_error(ERR_INVALID_NUM_PARAMS, "Nº parámetros incorrecto");
 	initialize_program_data(&data, argc, argv, envp);
 	show_program_data(data);
-	// execute_command(data, 0);
+	execute_command(data, 0);
 	release_program_data(data);
 	return (0);
 
