@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:27:15 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/10 16:51:39 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/11 18:09:34 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@
 
 # include "libft/libft.h"
 
-# define ERR_NUM_PARAMS_KO -1
+// TODO: Rename macro
+# define ERR_INVALID_NUM_PARAMS -1
+# define ERR_PATH_ENV_VAR_NOT_FOUND -2
 
 # define READ_END 0
 # define WRITE_END 1
@@ -36,9 +38,10 @@ struct	s_prgdata
 {
 	char	*infile;
 	char	*outfile;
-	char	**commands;
 	int		commands_number;
+	char	**commands;
 	char	**env_variables;
+	char	**path_dirs;
 };
 typedef struct s_prgdata	t_prgdata;
 

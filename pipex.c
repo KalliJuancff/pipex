@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/10 16:55:52 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/11 18:11:56 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,54 @@ void	show_program_data(t_prgdata dt)
 {
 	int	i;
 
-	printf(" Infile: %s\n", dt.infile);
+	printf("Infile: %s\n", dt.infile);
 	i = 0;
 	while (dt.commands[i] != NULL)
 	{
-		printf("Cmd. #%d / %d: ", i + 1, dt.commands_number);
+		printf("   Cmd. #%02d/%02d: ", i + 1, dt.commands_number);
 		printf("%s\n", dt.commands[i]);
 		i++;
 	}
+	printf("Environment variables:\n");
 	i = 0;
 	while (dt.env_variables[i] != NULL)
 	{
-		printf("   Var. #%02d: ", i + 1);
+		printf("      Var. #%02d: ", i + 1);
 		printf("%s\n", dt.env_variables[i]);
+		i++;
+	}
+	printf("Path directories:\n");
+	i = 0;
+	while (dt.path_dirs[i] != NULL)
+	{
+		printf("      Path #%02d: ", i+1);
+		printf("%s\n", dt.path_dirs[i]);
 		i++;
 	}
 	printf("Outfile: %s\n", dt.outfile);
 }
 
-void	execute_command(char *command)
+/*
+char	*expand_filename(char *filename)
 {
-	write(STDERR_FILENO, command, ft_strlen(command));
-	write(STDERR_FILENO, "\n", 1);
+}
+*/
+
+void	execute_command(t_prgdata dt, int ndx)
+{
+	char	*command;
+	char	**args;
+	// char	*path;
+
+	// pipex infile.txt "grep -v T" "grep O" "wc -l" outfile.txt
+	// execve (const char *path, char *const argv[], char *const envp[]);
+	command = dt.commands[ndx];
+	args = ft_split(command, ' ');
+	if (args == NULL)
+		exit_with_internal_error();
+	// execve(, args, dt.env_variables);
+	// write(STDERR_FILENO, command, ft_strlen(command));
+	// write(STDERR_FILENO, "\n", 1);
 }
 
 void	execute_first_command(t_prgdata dt, int *prev_fd, int ndx)
@@ -51,7 +77,7 @@ void	execute_first_command(t_prgdata dt, int *prev_fd, int ndx)
 	{
 		redirect_first_command(dt, pipefd);
 		// execlp("/usr/bin/grep", "grep", "-v", "T", NULL);
-		execute_command(dt.commands[ndx]);
+		execute_command(dt, ndx);
 	}
 	else
 	{
@@ -69,7 +95,7 @@ void	execute_last_command(t_prgdata dt, int prev_fd, int *last_pid, int ndx)
 	{
 		redirect_last_command(dt, prev_fd);
 		// execlp("/usr/bin/wc", "wc", "-l", NULL);
-		execute_command(dt.commands[ndx]);
+		execute_command(dt, ndx);
 	}
 	else
 	{
@@ -89,7 +115,7 @@ void	execute_middle_command(t_prgdata dt, int *prev_fd, int ndx)
 	{
 		redirect_middle_command(*prev_fd, pipefd);
 		// execlp("/usr/bin/grep", "grep", "O", NULL);
-		execute_command(dt.commands[ndx]);
+		execute_command(dt, ndx);
 	}
 	else
 	{
@@ -134,10 +160,12 @@ int	main(int argc, char *argv[], char *envp[])
 	int			result;
 
 	// if (argc != 5)
-	//	exit_with_custom_error(ERR_NUM_PARAMS_KO, "Nº parámetros incorrecto");
+	//	exit_with_custom_error(ERR_INVALID_NUM_PARAMS, "Nº parámetros incorrecto");
 	initialize_program_data(&data, argc, argv, envp);
 	show_program_data(data);
-	exit(0);
+	// execute_command(data, 0);
+	release_program_data(data);
+	return (0);
 
 	initialize_program_data(&data, argc, argv, envp);
 	result = exec_pipeline(data);
