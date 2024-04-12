@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/11 21:16:18 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:56:22 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	show_program_data(t_prgdata dt)
 	i = 0;
 	while (dt.path_dirs[i] != NULL)
 	{
-		printf("      Path #%02d: ", i+1);
+		printf("      Path #%02d: ", i + 1);
 		printf("%s\n", dt.path_dirs[i]);
 		i++;
 	}
@@ -136,9 +136,10 @@ int	exec_pipeline(t_prgdata dt)
 char	*expand_filename(char **path_dirs, char *filename)
 {
 	char	*result;
-	char	*temp;
 	int		i;
+	char	*temp;
 
+	result = NULL;
 	i = 0;
 	while (path_dirs[i] != NULL)
 	{
@@ -149,7 +150,7 @@ char	*expand_filename(char **path_dirs, char *filename)
 			return (result);
 		i++;;
 	}
-	return (NULL);
+	return (result);
 }
 
 void	execute_command(t_prgdata dt, int ndx)
@@ -168,6 +169,7 @@ void	execute_command(t_prgdata dt, int ndx)
 	if (fullname == NULL)
 		exit_with_custom_error(ERR_FILE_NOT_FOUND, "Fichero no encontrado");
 	execve(fullname, args, dt.env_variables);
+	exit_with_internal_error();
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -175,8 +177,8 @@ int	main(int argc, char *argv[], char *envp[])
 	t_prgdata	data;
 	int			result;
 
-	// if (argc != 5)
-	//	exit_with_custom_error(ERR_INVALID_NUM_PARAMS, "Nº parámetros incorrecto");
+	if (argc < 5)
+		exit_with_custom_error(ERR_INVALID_NUM_PARAMS, "Nº parámetros incorrecto");
 	initialize_program_data(&data, argc, argv, envp);
 	// show_program_data(data);
 	// execute_command(data, 0);  // NOTA IMPORTANTE: OJO, la ejecución finalizará aquí
