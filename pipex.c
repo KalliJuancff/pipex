@@ -6,12 +6,13 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/12 18:15:20 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/12 20:48:18 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/*
 void	show_program_data(t_prgdata dt)
 {
 	int	i;
@@ -42,6 +43,7 @@ void	show_program_data(t_prgdata dt)
 	}
 	printf("Outfile: %s\n", dt.outfile);
 }
+*/
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -49,7 +51,8 @@ int	main(int argc, char *argv[], char *envp[])
 	int			result;
 
 	if (argc < 5)
-		exit_with_custom_error(ERR_INVALID_NUM_PARAMS, "Nº parámetros incorrecto");
+		exit_with_custom_error(ERR_INVALID_NUM_PARAMS,
+			"Número de parámetros incorrecto");
 	init_program_data(&data, argc, argv, envp);
 	result = execute_pipeline(data);
 	release_program_data(data);
