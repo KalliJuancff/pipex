@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/12 16:56:22 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:19:59 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	show_program_data(t_prgdata dt)
 	printf("Outfile: %s\n", dt.outfile);
 }
 
-void	execute_first_command(t_prgdata dt, int *prev_fd, int ndx)
+void	execute_first_command(t_prgdata dt, int ndx, int *prev_fd)
 {
 	int	pipefd[2];
 	int	pid;
@@ -65,7 +65,7 @@ void	execute_first_command(t_prgdata dt, int *prev_fd, int ndx)
 	}
 }
 
-void	execute_last_command(t_prgdata dt, int prev_fd, int *last_pid, int ndx)
+void	execute_last_command(t_prgdata dt, int ndx, int prev_fd, int *last_pid)
 {
 	int	pid;
 
@@ -83,7 +83,7 @@ void	execute_last_command(t_prgdata dt, int prev_fd, int *last_pid, int ndx)
 	}
 }
 
-void	execute_middle_command(t_prgdata dt, int *prev_fd, int ndx)
+void	execute_middle_command(t_prgdata dt, int ndx, int *prev_fd)
 {
 	int	pipefd[2];
 	int	pid;
@@ -116,11 +116,11 @@ int	exec_pipeline(t_prgdata dt)
 	while (dt.commands[i] != NULL)
 	{
 		if (i == 0)
-			execute_first_command(dt, &prev_read_fd, i);
+			execute_first_command(dt, i, &prev_read_fd);
 		else if (i == (dt.commands_number - 1))
-			execute_last_command(dt, prev_read_fd, &last_pid, i);
+			execute_last_command(dt, i, prev_read_fd, &last_pid);
 		else
-			execute_middle_command(dt, &prev_read_fd, i);
+			execute_middle_command(dt, i, &prev_read_fd);
 		i++;
 	}
 	status = 0;
