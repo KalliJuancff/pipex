@@ -6,11 +6,35 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:26:11 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/13 19:04:35 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/13 20:38:51 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+char	*expand_filename(char **path_dirs, char *filename)
+{
+	char	*result;
+	int		i;
+	char	*temp;
+
+	result = NULL;
+	i = 0;
+	while (path_dirs[i] != NULL)
+	{
+		temp = ft_strjoin(path_dirs[i], "/");
+		if (temp == NULL)
+			exit_with_internal_error();
+		result = ft_strjoin(temp, filename);
+		if (result == NULL)
+			exit_with_internal_error();
+		free(temp);
+		if (access(result, F_OK) == 0)
+			return (result);
+		i++;
+	}
+	return (result);
+}
 
 void	execute_command(t_prgdata dt, int ndx)
 {
@@ -97,33 +121,4 @@ void	execute_middle_command(t_prgdata dt, int ndx, int *prev_fd)
 			exit_with_internal_error();
 		*prev_fd = pipefd[READ_END];
 	}
-}
-
-int	execute_pipeline(t_prgdata dt)
-{
-	int	i;
-	int	prev_read_fd;
-	int	last_pid;
-	int	status;
-	int	result;
-
-	i = 0;
-	while (dt.commands[i] != NULL)
-	{
-		if (i == 0)
-			execute_first_command(dt, i, &prev_read_fd);
-		else if (i == (dt.commands_number - 1))
-			execute_last_command(dt, i, prev_read_fd, &last_pid);
-		else
-			execute_middle_command(dt, i, &prev_read_fd);
-		i++;
-	}
-	status = 0;
-	i = 0;
-	while (dt.commands[i++] != NULL)
-	{
-		if (wait(&status) == last_pid && WIFEXITED(status))
-			result = WEXITSTATUS(status);
-	}
-	return (result);
 }
