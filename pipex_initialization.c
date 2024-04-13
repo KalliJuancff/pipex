@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:40:45 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/12 18:12:27 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/13 19:20:18 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ void	init_program_data(t_prgdata *dt, int argc, char *argv[], char *envp[])
 	dt->commands[i] = NULL;
 	dt->env_variables = envp;
 	path_value = get_value_of_environment_variable(envp, "PATH");
+	if (path_value == NULL)
+		exit_with_custom_error(ERR_PATH_ENV_VAR_NOT_FOUND,
+			"No se encontró la variable del entorno 'PATH'");
 	dt->path_dirs = get_path_directories(path_value);
 }
 

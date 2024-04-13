@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:43:22 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/13 18:50:16 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/13 19:21:08 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 
 // Ejemplo de posible valor de la variable del entorno 'PATH':
 //     "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware"
-// 
-// NOTA:
-// La última línea, el exit, es simplemente para evitar el warning
-//     "non-void function does not return a value in all control paths"
 char	*get_value_of_environment_variable(char *envp[], char *var_name)
 {
 	int		i;
@@ -35,16 +31,19 @@ char	*get_value_of_environment_variable(char *envp[], char *var_name)
 			return (envp[i] + ft_strlen(var_name) + 1);
 		i++;
 	}
-	exit_with_custom_error(ERR_PATH_ENV_VAR_NOT_FOUND,
-		"No se encontró la variable del entorno 'PATH'");
-	return (0);
+	return (NULL);
 }
 
 // Ejemplo de posible valor del argumento 'path_value':
 //     "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware"
 char	**get_path_directories(char *path_value)
 {
-	return (ft_split(path_value, ':'));
+	char	**result;
+
+	result = ft_split(path_value, ':');
+	if (result == NULL)
+		exit_with_internal_error();
+	return (result);
 }
 
 char	*expand_filename(char **path_dirs, char *filename)
@@ -58,7 +57,11 @@ char	*expand_filename(char **path_dirs, char *filename)
 	while (path_dirs[i] != NULL)
 	{
 		temp = ft_strjoin(path_dirs[i], "/");
+		if (temp == NULL)
+			exit_with_internal_error();
 		result = ft_strjoin(temp, filename);
+		if (result == NULL)
+			exit_with_internal_error();
 		free(temp);
 		if (access(result, F_OK) == 0)
 			return (result);

@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:27:15 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/13 18:48:33 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/13 19:27:57 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ struct	s_prgdata
 };
 typedef struct s_prgdata	t_prgdata;
 
-void	validate_arguments(int argc, char *argv[]);
 void	init_program_data(t_prgdata *dt, int argc, char *argv[], char *envp[]);
 void	release_program_data(t_prgdata dt);
 
