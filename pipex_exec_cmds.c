@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_execution_commands.c                         :+:      :+:    :+:   */
+/*   pipex_exec_cmds.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:26:11 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/13 20:38:51 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/13 22:45:07 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@ char	*expand_filename(char **path_dirs, char *filename)
 		if (result == NULL)
 			exit_with_internal_error();
 		free(temp);
-		if (access(result, F_OK) == 0)
+		if (access(result, F_OK) == 0 && access(result, X_OK) == 0)
 			return (result);
+		free(result);
 		i++;
 	}
-	return (result);
+	return (NULL);
 }
 
 void	execute_command(t_prgdata dt, int ndx)
@@ -50,7 +51,8 @@ void	execute_command(t_prgdata dt, int ndx)
 	command_name = args[0];
 	fullname = expand_filename(dt.path_dirs, command_name);
 	if (fullname == NULL)
-		exit_with_custom_error(ERR_FILE_NOT_FOUND, "Fichero no encontrado");
+		exit_with_custom_error(ERR_FILE_NOT_FOUND_OR_WITHOUT_PERMISSIONS,
+			"Comando no encontrado o sin permisos de ejecución");
 	execve(fullname, args, dt.env_variables);
 	exit_with_internal_error();
 }

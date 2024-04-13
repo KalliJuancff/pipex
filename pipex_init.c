@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_initialization.c                             :+:      :+:    :+:   */
+/*   pipex_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:40:45 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/13 20:40:27 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/13 23:02:44 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,16 @@ void	release_program_data(t_prgdata dt)
 {
 	int	i;
 
-	free(dt.commands);
-	i = 0;
-	while (dt.path_dirs[i] != NULL)
+	if (dt.commands != NULL)
+		free(dt.commands);
+	if (dt.path_dirs != NULL)
 	{
-		free(dt.path_dirs[i]);
-		i++;
+		i = 0;
+		while (dt.path_dirs[i] != NULL)
+		{
+			free(dt.path_dirs[i]);
+			i++;
+		}
+		free(dt.path_dirs);
 	}
-	free(dt.path_dirs);
 }

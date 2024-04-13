@@ -6,15 +6,13 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:27:15 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/13 19:27:57 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/13 22:48:34 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-	// errno
-# include <errno.h>
 	// O_RDONLY, open, ...
 	// ... O_CREAT, OWR_ONLY, O_TRUNC, S_IRUSR, S_IWUSR, S_IRGRP, S_IROTH
 # include <fcntl.h>
@@ -22,7 +20,7 @@
 # include <stdio.h>
 	// exit, wait
 # include <stdlib.h>
-	// STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO, ...
+	// STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO, F_OK, X_OK, ...
 	// ... close, dup2, fork, getpid, pid_t, pipe, read, write
 # include <unistd.h>
 
@@ -30,7 +28,7 @@
 
 # define ERR_INVALID_NUM_PARAMS -1
 # define ERR_PATH_ENV_VAR_NOT_FOUND -2
-# define ERR_FILE_NOT_FOUND -3
+# define ERR_FILE_NOT_FOUND_OR_WITHOUT_PERMISSIONS -3
 
 # define READ_END 0
 # define WRITE_END 1

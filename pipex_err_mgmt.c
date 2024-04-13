@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_error_management.c                           :+:      :+:    :+:   */
+/*   pipex_err_mgmt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:03:01 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/10 10:20:05 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/13 22:47:01 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	exit_with_internal_error(void)
 {
 	perror(NULL);
-	exit(errno);
+	exit(1);
 }
 
 void	exit_with_custom_error(int err_code, char *err_msg)
