@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:26:11 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/12 18:14:32 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/13 18:26:36 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	execute_first_command(t_prgdata dt, int ndx, int *prev_fd)
 	}
 	else
 	{
-		*prev_fd = pipefd[READ_END];
 		close(pipefd[WRITE_END]);
+		*prev_fd = pipefd[READ_END];
 	}
 }
 
@@ -76,14 +76,14 @@ void	execute_middle_command(t_prgdata dt, int ndx, int *prev_fd)
 	pid = fork();
 	if (pid == 0)
 	{
-		redirect_middle_command(*prev_fd, pipefd);
+		redirect_middle_command(pipefd, *prev_fd);
 		execute_command(dt, ndx);
 	}
 	else
 	{
 		close(*prev_fd);
-		*prev_fd = pipefd[READ_END];
 		close(pipefd[WRITE_END]);
+		*prev_fd = pipefd[READ_END];
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:39:35 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/12 17:39:37 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/13 18:27:20 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	redirect_last_command(t_prgdata dt, int prev_read_fd)
 	close(filefd);
 }
 
-void	redirect_middle_command(int prev_read_fd, int pipefd[2])
+void	redirect_middle_command(int pipefd[2], int prev_read_fd)
 {
 	dup2(prev_read_fd, STDIN_FILENO);
 	close(prev_read_fd);

@@ -6,14 +6,18 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:43:22 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/12 20:27:45 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/13 18:50:16 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-// Ejemplo:
+// Ejemplo de posible valor de la variable del entorno 'PATH':
 //     "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware"
+// 
+// NOTA:
+// La última línea, el exit, es simplemente para evitar el warning
+//     "non-void function does not return a value in all control paths"
 char	*get_value_of_environment_variable(char *envp[], char *var_name)
 {
 	int		i;
@@ -22,9 +26,9 @@ char	*get_value_of_environment_variable(char *envp[], char *var_name)
 	int		condition2;
 
 	i = 0;
+	len = ft_strlen(var_name);
 	while (envp[i] != NULL)
 	{
-		len = ft_strlen(var_name);
 		condition1 = (ft_strnstr(envp[i], var_name, len) != NULL);
 		condition2 = (envp[i][ft_strlen(var_name)] == '=');
 		if (condition1 && condition2)
@@ -36,7 +40,7 @@ char	*get_value_of_environment_variable(char *envp[], char *var_name)
 	return (0);
 }
 
-// Ejemplo:
+// Ejemplo de posible valor del argumento 'path_value':
 //     "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware"
 char	**get_path_directories(char *path_value)
 {
