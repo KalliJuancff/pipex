@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:39:35 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/13 19:09:47 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/14 16:09:30 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,5 @@ void	redirect_last_command(t_prgdata dt, int prev_read_fd)
 	if (dup2(filefd, STDOUT_FILENO) == -1)
 		exit_with_internal_error();
 	if (close(filefd) == -1)
-		exit_with_internal_error();
-}
-
-void	redirect_middle_command(int pipefd[2], int prev_read_fd)
-{
-	if (dup2(prev_read_fd, STDIN_FILENO) == -1)
-		exit_with_internal_error();
-	if (close(prev_read_fd) == -1)
-		exit_with_internal_error();
-	if (dup2(pipefd[WRITE_END], STDOUT_FILENO) == -1)
-		exit_with_internal_error();
-	if (close(pipefd[WRITE_END]) == -1)
-		exit_with_internal_error();
-	if (close(pipefd[READ_END]) == -1)
 		exit_with_internal_error();
 }

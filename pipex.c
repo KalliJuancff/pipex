@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:26:48 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/13 20:36:28 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/14 16:08:37 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ int	execute_pipeline(t_prgdata dt)
 			execute_first_command(dt, i, &prev_read_fd);
 		else if (i == (dt.commands_number - 1))
 			execute_last_command(dt, i, prev_read_fd, &last_pid);
-		else
-			execute_middle_command(dt, i, &prev_read_fd);
 		i++;
 	}
 	status = 0;
@@ -79,7 +77,7 @@ int	main(int argc, char *argv[], char *envp[])
 	t_prgdata	data;
 	int			result;
 
-	if (argc < 5)
+	if (argc != 5)
 		exit_with_custom_error(ERR_INVALID_NUM_PARAMS,
 			"Número de parámetros incorrecto");
 	init_program_data(&data, argc, argv, envp);

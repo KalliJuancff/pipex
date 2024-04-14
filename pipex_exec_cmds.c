@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 17:26:11 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/13 22:45:07 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/14 16:09:15 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,30 +97,5 @@ void	execute_last_command(t_prgdata dt, int ndx, int prev_fd, int *last_pid)
 		if (close(prev_fd) == -1)
 			exit_with_internal_error();
 		*last_pid = pid;
-	}
-}
-
-void	execute_middle_command(t_prgdata dt, int ndx, int *prev_fd)
-{
-	int	pipefd[2];
-	int	pid;
-
-	if (pipe(pipefd) == -1)
-		exit_with_internal_error();
-	pid = fork();
-	if (pid == -1)
-		exit_with_internal_error();
-	if (pid == 0)
-	{
-		redirect_middle_command(pipefd, *prev_fd);
-		execute_command(dt, ndx);
-	}
-	else
-	{
-		if (close(*prev_fd) == -1)
-			exit_with_internal_error();
-		if (close(pipefd[WRITE_END]) == -1)
-			exit_with_internal_error();
-		*prev_fd = pipefd[READ_END];
 	}
 }

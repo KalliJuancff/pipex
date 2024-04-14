@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 10:27:15 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/14 15:49:07 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/14 16:09:57 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,10 @@ char	*expand_filename(char **path_dirs, char *filename);
 void	execute_command(t_prgdata dt, int ndx);
 void	execute_first_command(t_prgdata dt, int ndx, int *prev_fd);
 void	execute_last_command(t_prgdata dt, int ndx, int prev_fd, int *last_pid);
-void	execute_middle_command(t_prgdata dt, int ndx, int *prev_fd);
 int		execute_pipeline(t_prgdata dt);
 
 void	redirect_first_command(t_prgdata dt, int pipefd[2]);
 void	redirect_last_command(t_prgdata dt, int prev_read_fd);
-void	redirect_middle_command(int pipefd[2], int prev_read_fd);
 
 void	exit_with_internal_error(void);
 void	exit_with_custom_error(int err_code, char *err_msg);
