@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 12:22:52 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/14 12:42:51 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/14 15:49:22 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 
 # include "libft/libft.h"
 
+# define ERR_INTERNAL_ERROR 1
 # define ERR_INVALID_NUM_PARAMS -1
 # define ERR_PATH_ENV_VAR_NOT_FOUND -2
 # define ERR_FILE_NOT_FOUND_OR_WITHOUT_PERMISSIONS -3

@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 12:23:27 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/14 12:23:36 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/14 15:50:39 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	exit_with_internal_error(void)
 {
 	perror(NULL);
-	exit(1);
+	exit(ERR_INTERNAL_ERROR);
 }
 
 void	exit_with_custom_error(int err_code, char *err_msg)
