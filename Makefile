@@ -4,10 +4,17 @@ SRC_FILES := pipex.c \
 	pipex_exec_cmds.c \
 	pipex_redir_cmds.c \
 	pipex_err_mgmt.c
+SRC_FILES_BONUS := pipex_bonus.c \
+	pipex_init_bonus.c \
+	pipex_exec_cmds_bonus.c \
+	pipex_redir_cmds_bonus.c \
+	pipex_err_mgmt_bonus.c
 		# Utilizando 'substitution reference'
 OBJ_FILES := $(SRC_FILES:.c=.o)
+OBJ_FILES_BONUS := $(SRC_FILES_BONUS:.c=.o)
 		# Utilizando la funcion 'patsubst'
 DEP_FILES := $(patsubst %.c,%.d,$(SRC_FILES))
+DEP_FILES_BONUS := $(patsubst %.c,%.d,$(SRC_FILES_BONUS))
 CFLAGS := -Wall -Wextra -Werror -MMD
 LIBFT_DIR := libft
 LIBFT_FILENAME := libft.a
@@ -41,6 +48,10 @@ norm :
 	@norminette $(SRC_FILES) $(NAME).h
 
 debug :
-	$(info SRC FILES: $(SRC_FILES))
-	$(info OBJ FILES: $(OBJ_FILES))
-	$(info DEP FILES: $(DEP_FILES))
+	$(info SRC FILES (MANDATORY) : $(SRC_FILES))
+	$(info SRC FILES (BONUS)     : $(SRC_FILES_BONUS))
+	$(info OBJ FILES (MANDATORY) : $(OBJ_FILES))
+	$(info OBJ FILES (BONUS)     : $(OBJ_FILES_BONUS))
+	$(info DEP FILES (MANDATORY) : $(DEP_FILES))
+	$(info DEP FILES (BONUS)     : $(DEP_FILES_BONUS))
+
