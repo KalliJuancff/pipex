@@ -17,3 +17,5 @@ norm :
 clean :
 	rm -f pipex
 	rm -f pipex_bonus
+	rm -f output*.txt
+	rm -f outfile*.txt
