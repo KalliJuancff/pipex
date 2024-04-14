@@ -32,7 +32,7 @@ endif
 -include $(DEP_FILES)
 
 $(LIBFT_DIR)/$(LIBFT_FILENAME) :
-	$(MAKE_COMMAND) -C $(LIBFT_DIR)
+	$(MAKE) -C $(LIBFT_DIR)
 
 %.o : %.c Makefile
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -43,16 +43,19 @@ all : $(NAME)
 
 clean :
 	$(RM) $(OBJ_FILES)
+	$(RM) $(OBJ_FILES_BONUS)
 	$(RM) $(DEP_FILES)
-	$(MAKE_COMMAND) -C $(LIBFT_DIR) clean
+	$(RM) $(DEP_FILES_BONUS)
+	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean : clean
 	$(RM) $(NAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re : fclean all
 
 bonus :
-	$(MAKE_COMMAND) FLAG_BONUS=1
+	$(MAKE) FLAG_BONUS=1
 
 norm :
 	@norminette $(SRC_FILES) $(NAME).h
