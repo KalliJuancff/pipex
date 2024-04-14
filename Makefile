@@ -19,8 +19,15 @@ CFLAGS := -Wall -Wextra -Werror -MMD
 LIBFT_DIR := libft
 LIBFT_FILENAME := libft.a
 
+ifndef FLAG_BONUS
 $(NAME) : $(LIBFT_DIR)/$(LIBFT_FILENAME) $(OBJ_FILES)
+	$(RM) $(OBJ_FILES_BONUS) $(DEP_FILES_BONUS)
 	$(CC) $(LIBFT_DIR)/$(LIBFT_FILENAME) $(OBJ_FILES) -o $(NAME)
+else
+$(NAME) : $(LIBFT_DIR)/$(LIBFT_FILENAME) $(OBJ_FILES_BONUS)
+	$(RM) $(OBJ_FILES) $(DEP_FILES)
+	$(CC) $(LIBFT_DIR)/$(LIBFT_FILENAME) $(OBJ_FILES_BONUS) -o $(NAME)
+endif
 
 -include $(DEP_FILES)
 
@@ -30,7 +37,7 @@ $(LIBFT_DIR)/$(LIBFT_FILENAME) :
 %.o : %.c Makefile
 	$(CC) $(CFLAGS) -c $< -o $@
 
-.PHONY : all clean fclean re norm debug
+.PHONY : all clean fclean re bonus norm debug
 
 all : $(NAME)
 
@@ -43,6 +50,9 @@ fclean : clean
 	$(RM) $(NAME)
 
 re : fclean all
+
+bonus :
+	$(MAKE_COMMAND) FLAG_BONUS=1
 
 norm :
 	@norminette $(SRC_FILES) $(NAME).h
