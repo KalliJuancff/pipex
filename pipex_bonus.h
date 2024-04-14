@@ -6,12 +6,12 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 12:22:52 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/14 12:23:05 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/14 12:42:51 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 	// O_RDONLY, open, ...
 	// ... O_CREAT, OWR_ONLY, O_TRUNC, S_IRUSR, S_IWUSR, S_IRGRP, S_IROTH
