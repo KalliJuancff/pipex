@@ -13,8 +13,7 @@ LIBFT_DIR := libft
 LIBFT_FILENAME := libft.a
 
 $(NAME) : $(LIBFT_DIR)/$(LIBFT_FILENAME) $(OBJ_FILES)
-	# cp $(LIBFT_DIR)/$(LIBFT_FILENAME) .
-	$(CC) -L$(LIBFT_DIR)/ -l:$(LIBFT_FILENAME) $(OBJ_FILES) -o $(NAME)
+	$(CC) $(LIBFT_DIR)/$(LIBFT_FILENAME) $(OBJ_FILES) -o $(NAME)
 
 -include $(DEP_FILES)
 
