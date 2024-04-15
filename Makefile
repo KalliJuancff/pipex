@@ -58,7 +58,7 @@ bonus :
 	$(MAKE) FLAG_BONUS=1
 
 norm :
-	@norminette $(SRC_FILES) $(NAME).h
+	@norminette $(SRC_FILES) $(SRC_FILES_BONUS) $(NAME).h $(NAME)_bonus.h
 
 debug :
 	$(info SRC FILES (MANDATORY) : $(SRC_FILES))
