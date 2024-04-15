@@ -6,13 +6,13 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 12:24:07 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/14 12:24:16 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/15 09:43:27 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-char	*expand_filename(char **path_dirs, char *filename)
+static char	*expand_filename(char **path_dirs, char *filename)
 {
 	char	*result;
 	int		i;
@@ -37,7 +37,7 @@ char	*expand_filename(char **path_dirs, char *filename)
 	return (NULL);
 }
 
-void	execute_command(t_prgdata dt, int ndx)
+static void	execute_command(t_prgdata dt, int ndx)
 {
 	char	*command;
 	char	**args;

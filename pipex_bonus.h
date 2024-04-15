@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 12:22:52 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/15 09:34:48 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/15 09:42:42 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ void	release_program_data(t_prgdata dt);
 
 char	*get_value_of_environment_variable(char *envp[], char *var_name);
 char	**get_path_directories(char *path_value);
-char	*expand_filename(char **path_dirs, char *filename);
 
-void	execute_command(t_prgdata dt, int ndx);
 void	execute_first_command(t_prgdata dt, int ndx, int *prev_fd);
 void	execute_last_command(t_prgdata dt, int ndx, int prev_fd, int *last_pid);
 void	execute_middle_command(t_prgdata dt, int ndx, int *prev_fd);
