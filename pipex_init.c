@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 16:11:32 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/14 16:13:19 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/15 10:12:26 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // Ejemplo de posible valor de la variable del entorno 'PATH':
 //     "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware"
-char	*get_value_of_environment_variable(char *envp[], char *var_name)
+static char	*get_value_of_environment_variable(char *envp[], char *var_name)
 {
 	int		i;
 	size_t	len;
@@ -36,7 +36,7 @@ char	*get_value_of_environment_variable(char *envp[], char *var_name)
 
 // Ejemplo de posible valor del argumento 'path_value':
 //     "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware"
-char	**get_path_directories(char *path_value)
+static char	**get_path_directories(char *path_value)
 {
 	char	**result;
 

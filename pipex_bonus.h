@@ -6,7 +6,7 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 12:22:52 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/15 09:42:42 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/15 10:13:06 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,6 @@ typedef struct s_prgdata	t_prgdata;
 
 void	init_program_data(t_prgdata *dt, int argc, char *argv[], char *envp[]);
 void	release_program_data(t_prgdata dt);
-
-char	*get_value_of_environment_variable(char *envp[], char *var_name);
-char	**get_path_directories(char *path_value);
 
 void	execute_first_command(t_prgdata dt, int ndx, int *prev_fd);
 void	execute_last_command(t_prgdata dt, int ndx, int prev_fd, int *last_pid);
