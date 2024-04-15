@@ -6,14 +6,14 @@
 /*   By: jfidalgo <jfidalgo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 12:21:40 by jfidalgo          #+#    #+#             */
-/*   Updated: 2024/04/14 12:21:50 by jfidalgo         ###   ########.fr       */
+/*   Updated: 2024/04/15 09:35:12 by jfidalgo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
 /*
-void	show_program_data(t_prgdata dt)
+static void	show_program_data(t_prgdata dt)
 {
 	int	i;
 
@@ -45,7 +45,7 @@ void	show_program_data(t_prgdata dt)
 }
 */
 
-int	execute_pipeline(t_prgdata dt)
+static int	execute_pipeline(t_prgdata dt)
 {
 	int	i;
 	int	prev_read_fd;
